@@ -1,0 +1,193 @@
+/* Custom style adjustments for إتقان English application */
+
+/* Global configuration and Font smoothness */
+html, body {
+  font-family: 'Cairo', 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Sidebar and Mobile tab configurations */
+.nav-btn {
+  color: #94a3b8; /* gray-400 */
+}
+
+.nav-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #f8fafc;
+}
+
+.nav-btn.active {
+  background-color: #047857; /* itqan-700 */
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+}
+
+/* Setup options inside Quiz Panel */
+.quiz-setup-opt {
+  border-color: #e2e8f0;
+  background-color: #f8fafc;
+  color: #475569;
+}
+
+.quiz-setup-opt:hover {
+  border-color: #cbd5e1;
+  background-color: #f1f5f9;
+}
+
+.quiz-setup-opt.active {
+  border-color: #10b981;
+  background-color: #ecfdf5;
+  color: #064e3b;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+/* Mobile Bottom Tab active button styling */
+footer button.active {
+  color: #10b981 !important;
+}
+
+footer button.active i {
+  color: #10b981 !important;
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+/* Custom cards for word explorer */
+.word-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.word-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.word-card.learned {
+  border-left: 4px solid #10b981;
+}
+
+/* Highlighted words inside AI Stories */
+.highlight-story-word {
+  background-color: #fef3c7; /* amber-100 */
+  border-bottom: 2px dashed #f59e0b; /* amber-500 */
+  color: #92400e;
+  padding: 0 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.highlight-story-word:hover {
+  background-color: #fde68a; /* amber-200 */
+  box-shadow: 0 2px 5px rgba(245, 158, 11, 0.15);
+}
+
+/* Sound Wave Animation for speaking words */
+.sound-wave {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.sound-wave span {
+  width: 3px;
+  height: 10px;
+  background-color: currentColor;
+  border-radius: 1px;
+}
+
+.sound-wave.animating span:nth-child(1) { animation: wave-anim 1s ease-in-out infinite alternate; }
+.sound-wave.animating span:nth-child(2) { animation: wave-anim 0.8s ease-in-out infinite alternate 0.2s; }
+.sound-wave.animating span:nth-child(3) { animation: wave-anim 1.2s ease-in-out infinite alternate 0.4s; }
+
+@keyframes wave-anim {
+  0% { height: 4px; }
+  100% { height: 16px; }
+}
+
+/* Animate toast notification entry */
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-toast {
+  animation: slide-in-left 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Custom interactive animation for Quiz Answers selection */
+.option-btn {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.option-btn.selected {
+  border-color: #3b82f6;
+  background-color: #eff6ff;
+  color: #1e3a8a;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.option-btn.correct {
+  border-color: #10b981 !important;
+  background-color: #ecfdf5 !important;
+  color: #064e3b !important;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2) !important;
+}
+
+.option-btn.wrong {
+  border-color: #ef4444 !important;
+  background-color: #fef2f2 !important;
+  color: #7f1d1d !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2) !important;
+}
+
+/* Progress bar transitions */
+#quiz-progress-bar {
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Achievements Wall Badge Card animations */
+.badge-card {
+  transition: all 0.3s ease;
+}
+
+.badge-card:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.badge-card.locked {
+  filter: grayscale(1) opacity(0.5);
+}
+
+/* Pronunciation helper block */
+.pronunciation-bubble {
+  font-family: 'JetBrains Mono', monospace;
+  direction: ltr;
+}
