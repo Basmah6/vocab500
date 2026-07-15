@@ -1193,68 +1193,59 @@ async function fetchAIExplanation() {
   btn.classList.add("hidden");
   loading.classList.remove("hidden");
 
-  const GEMINI_API_KEY = "AQ.Ab8RN6LI1YwU8QKeJIGqYa9qQXOffKUuv69YQVtNR1S2vt4e_w";
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-
-  const promptText = `
-    Analyze the English word: "${activeExplorerWord.word}" (Category: "${activeExplorerWord.categoryName}").
-    Provide the response in raw JSON format exactly matching this schema:
-    {
-      "pronunciationGuide": "Simplified pronunciation guide in Arabic",
-      "mnemonic": "A memorable learning trick or connection in Arabic to help the student remember this word",
-      "funFact": "An interesting linguistic fact or usage tip about this word in Arabic",
-      "examples": [
-        {
-          "english": "Example sentence using the word",
-          "arabic": "الترجمة العربية الدقيقة للمثال",
-          "tips": "💡 نصيحة سريعة حول استخدام الكلمة في هذا السياق"
-        }
-      ]
-    }
-  `;
-
   try {
-    const res = await fetch(url, {
+    const res = await fetch("/api/tutor/explain", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: promptText }] }],
-        generationConfig: { responseMimeType: "application/json" }
+        word: activeExplorerWord.word,
+        category: activeExplorerWord.categoryName
       })
     });
 
-    if (!res.ok) throw new Error("Gemini API failed");
-    const rawData = await res.json();
-    const data = JSON.parse(rawData.candidates[0].content.parts[0].text);
+    if (!res.ok) throw new Error("Explanation API failed");
+    const data = await res.json();
 
-    document.getElementById("ai-explain-pronunciation").innerHTML = data.pronunciationGuide || "";
-    document.getElementById("ai-explain-mnemonic").innerHTML = data.mnemonic || "";
-    document.getElementById("ai-explain-fun-fact").innerHTML = data.funFact || "";
+    if (data.error) throw new Error(data.error);
 
+    // Inject sound guides, link mnemonics and linguistic factoids
+    document.getElementById("ai-explain-pronunciation").innerHTML = data.pronunciationGuide || "لا يوجد نطق متاح حالياً.";
+    document.getElementById("ai-explain-mnemonic").innerHTML = data.mnemonic || "حاول تكرار الكلمة وحفظها بصوت عالٍ.";
+    document.getElementById("ai-explain-fun-fact").innerHTML = data.funFact || "كلمة شائعة هامة جداً للمحادثات اليومية.";
+
+    // Inject dynamic lists of expanded biling examples
     const listContainer = document.getElementById("ai-explain-examples-list");
     listContainer.innerHTML = "";
 
     if (data.examples && Array.isArray(data.examples)) {
       data.examples.forEach(ex => {
         const row = document.createElement("div");
-        row.className = "bg-white border border-slate-100 p-4 rounded-xl space-y-1.5 shadow-3xs text-right";
+        row.className = "bg-white border border-slate-100 p-4 rounded-xl space-y-1.5 shadow-3xs";
         row.innerHTML = `
-          <p class="text-xs font-black text-slate-800 ltr text-left">${ex.english}</p>
+          <p class="text-xs font-black text-slate-800 ltr">${ex.english}</p>
           <p class="text-[11px] text-slate-400 font-bold">${ex.arabic}</p>
           ${ex.tips ? `<p class="text-[10px] text-brand-blue font-extrabold mt-1">💡 ملمح: ${ex.tips}</p>` : ""}
         `;
         listContainer.appendChild(row);
       });
+    } else {
+      listContainer.innerHTML = "<p class='text-[11px] text-slate-400'>لا تتوفر أمثلة إضافية حالياً.</p>";
     }
 
     loading.classList.add("hidden");
     displayBox.classList.remove("hidden");
+
+    // Award XP points for looking up detailed explanation
     awardXp(5);
   } catch (err) {
     console.error("AI explanation fetch failed:", err);
     loading.classList.add("hidden");
     btn.classList.remove("hidden");
-    alert("تعذر الاتصال بـ Itqan AI Tutor. يرجى تشغيل الموقع من خلال سيرفر محلي (Live Server).");
+    alert("عذراً، تعذر الاتصال بـ Itqan AI Tutor حالياً. يرجى تكرار المحاولة.");
+  }
+
+  if (window.lucide) {
+    window.lucide.createIcons();
   }
 }
 
@@ -1827,7 +1818,6 @@ document.addEventListener("click", (e) => {
 });
 
 // Call Backend Story API
-// استبدل الدالة القديمة بهذا الكود بالكامل:
 async function generateAIStory() {
   if (activeStorySelectedWords.length < 2) return;
 
@@ -1841,59 +1831,35 @@ async function generateAIStory() {
 
   const wordStrings = activeStorySelectedWords.map(sw => sw.word);
 
-  // ضع مفتاحك الكامل هنا
-  const GEMINI_API_KEY = "AQ.Ab8RN6LI1YwU8QKeJIGqYa9qQXOffKUuv69YQVtNR1S2vt4e_w"; 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-
-  const promptText = `
-    You are an expert English language tutor for beginners (Level A1).
-    Write an engaging, short, and very simple story using the following English vocabulary words: [ ${wordStrings.join(', ')} ].
-    
-    You must output your response in raw JSON format matching this schema exactly. Do not wrap the JSON in markdown blocks (like \`\`\`json):
-    {
-      "title": "An exciting short title in English",
-      "titleArabic": "الترجمة العربية للعنوان",
-      "storyEnglish": "The short English story text. Naturally include the vocabulary words.",
-      "storyArabic": "الترجمة العربية للقصة ليفهمها الطالب",
-      "questions": [
-        {
-          "question": "A simple English comprehension question about the story",
-          "options": ["Option A", "Option B", "Option C", "Option D"],
-          "answerIndex": 0,
-          "explanation": "شرح مبسط باللغة العربية لسبب صحة الإجابة وترجمة السؤال"
-        }
-      ]
-    }
-  `;
-
   try {
-    const res = await fetch(url, {
+    const res = await fetch("/api/tutor/story", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: promptText }] }],
-        generationConfig: { responseMimeType: "application/json" }
-      })
+      body: JSON.stringify({ words: wordStrings })
     });
 
-    if (!res.ok) throw new Error("Gemini API call failed");
-    
-    const rawData = await res.json();
-    const aiTextResponse = rawData.candidates[0].content.parts[0].text;
-    const data = JSON.parse(aiTextResponse);
+    if (!res.ok) throw new Error("Story generation failed");
+    const data = await res.json();
 
+    if (data.error) throw new Error(data.error);
+
+    // Inject Story parameters
     document.getElementById("story-view-title-en").textContent = data.title || "Story Adventure";
     document.getElementById("story-view-title-ar").textContent = data.titleArabic || "القصة التعليمية المخصصة";
     document.getElementById("story-view-body-en").innerHTML = data.storyEnglish || "";
     document.getElementById("story-view-body-ar").innerHTML = data.storyArabic || "";
 
+    // Generate story multiple choice question comprehension challenge
     if (data.questions && Array.isArray(data.questions) && data.questions.length > 0) {
       const q = data.questions[0];
       document.getElementById("story-challenge-box").classList.remove("hidden");
       document.getElementById("story-challenge-question").textContent = q.question;
 
+      // Render options grid
       const optionsContainer = document.getElementById("story-challenge-options");
       optionsContainer.innerHTML = "";
+
+      // Re-enable challenge cards
       document.getElementById("story-challenge-feedback").classList.add("hidden");
 
       q.options.forEach((opt, idx) => {
@@ -1914,12 +1880,15 @@ async function generateAIStory() {
 
     loading.classList.add("hidden");
     storyPanel.classList.remove("hidden");
-
   } catch (err) {
     console.error("AI story generation failed:", err);
     loading.classList.add("hidden");
     placeholder.classList.remove("hidden");
-    alert("عذراً، فشل توليد قصة إتقان مخصصة حالياً. يرجى التأكد من تشغيل الموقع عبر Live Server أو رفعه على استضافة.");
+    alert("عذراً، فشل توليد قصة إتقان مخصصة حالياً. يرجى إعادة المحاولة.");
+  }
+
+  if (window.lucide) {
+    window.lucide.createIcons();
   }
 }
 
@@ -2032,6 +2001,7 @@ async function sendChatMessage(text) {
   const content = text.trim();
   if (content === "") return;
 
+  // Append User message state
   const userMsg = {
     id: `user-${Date.now()}`,
     role: "user",
@@ -2041,11 +2011,13 @@ async function sendChatMessage(text) {
 
   chatMessages.push(userMsg);
   
+  // Clear input
   const inputEl = document.getElementById("chat-message-input");
   if (inputEl) inputEl.value = "";
 
   renderChatMessages();
 
+  // Show loading indicator
   const container = document.getElementById("chat-messages-viewport");
   const loadingBubble = document.createElement("div");
   loadingBubble.id = "chat-typing-indicator";
@@ -2061,54 +2033,56 @@ async function sendChatMessage(text) {
   container.appendChild(loadingBubble);
   container.scrollTop = container.scrollHeight;
 
-  const GEMINI_API_KEY = "AQ.Ab8RN6LI1YwU8QKeJIGqYa9qQXOffKUuv69YQVtNR1S2vt4e_w";
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
 
+  // Call Backend chat API
   try {
+    // Keep only last 10 messages for context efficiency
     const recentContext = chatMessages.slice(-10).map(m => ({
-      role: m.role === "user" ? "user" : "model",
-      parts: [{ text: m.content }]
+      role: m.role,
+      content: m.content
     }));
 
-    const systemInstruction = {
-      role: "user",
-      parts: [{ text: "You are 'Itqan AI Tutor'. You help beginners learn English A1. Keep answers simple, friendly, and in a mix of English and Arabic." }]
-    };
-
-    const res = await fetch(url, {
+    const res = await fetch("/api/tutor/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [systemInstruction, ...recentContext]
-      })
+      body: JSON.stringify({ messages: recentContext })
     });
 
+    // Remove typing bubble
     const indicator = document.getElementById("chat-typing-indicator");
     if (indicator) indicator.remove();
 
-    if (!res.ok) throw new Error("Chat API failed");
-    const rawData = await res.json();
-    const aiReply = rawData.candidates[0].content.parts[0].text;
+    if (!res.ok) throw new Error("Chat api failed");
+    const data = await res.json();
 
+    if (data.error) throw new Error(data.error);
+
+    // Append response assistant bubble
     const assistantMsg = {
       id: `assistant-${Date.now()}`,
       role: "assistant",
-      content: aiReply,
+      content: data.content,
       timestamp: new Date()
     };
 
     chatMessages.push(assistantMsg);
     renderChatMessages();
+
+    // Award +5 XP per conversational turn
     awardXp(5);
   } catch (err) {
     console.error("AI tutor chat failed:", err);
     const indicator = document.getElementById("chat-typing-indicator");
     if (indicator) indicator.remove();
 
+    // Show error system indicator
     const errorMsg = {
       id: `err-${Date.now()}`,
       role: "assistant",
-      content: "عذراً، تعذر الاتصال بـ Itqan AI. تأكد من عدم فتح الملف كـ file:// وافتحه من خادم محلي.",
+      content: "عذراً، تعذر الحصول على رد من معلم إتقان الذكي حالياً. يرجى تكرار المحاولة.",
       timestamp: new Date()
     };
     chatMessages.push(errorMsg);
