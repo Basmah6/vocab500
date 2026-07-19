@@ -145,7 +145,7 @@ var storiesData = [
   },
   {
     targetWords: ["g19"],
-    wordMapping: [{ id: "g19", en: "Mr.", ar: "السيد" }],
+    wordMapping: [{ id: "g19", en: "Mr", ar: "السيد" }],
     titleEn: "History Class",
     titleAr: "درس التاريخ",
     english: "The students were waiting quietly for their history teacher to enter the room. Mr. Miller walked in, holding a map and a pointer for the lesson. He greeted everyone with a firm nod and started writing the date on the board. The students opened their notebooks and focused on his words.",
@@ -153,7 +153,7 @@ var storiesData = [
   },
   {
     targetWords: ["g20"],
-    wordMapping: [{ id: "g20", en: "Mrs.", ar: "السيدة" }],
+    wordMapping: [{ id: "g20", en: "Mrs", ar: "السيدة" }],
     titleEn: "Mrs. Jones's Garden",
     titleAr: "حديقة السيدة جونز",
     english: "The small garden was full of colorful flowers that needed watering every day. Mrs. Jones came out with her watering can to care for her plants. She spoke gently to the flowers as if they were her friends. Her garden was the most beautiful one in the whole neighborhood.",
@@ -161,7 +161,7 @@ var storiesData = [
   },
   {
     targetWords: ["g21"],
-    wordMapping: [{ id: "g21", en: "Ms.", ar: "الآنسة" }],
+    wordMapping: [{ id: "g21", en: "Ms", ar: "الآنسة" }],
     titleEn: "The Productive Meeting",
     titleAr: "الاجتماع المثمر",
     english: "The office meeting started on time, and Ms. Clara led the discussion clearly. She shared her ideas about the new project with the whole team. Everyone listened carefully and took notes on their laptops. Her clear instructions helped the team understand their tasks for the next month.",
