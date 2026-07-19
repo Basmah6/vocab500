@@ -2077,7 +2077,7 @@ async function sendChatMessage(text) {
   const content = text.trim();
   if (content === "") return;
 
-  // 1. إضافة رسالة المستخدم للمصفوفة وتحديث الشاشة
+  // 1. إضافة رسالة المستخدم
   chatMessages.push({ 
     id: `user-${Date.now()}`, 
     role: "user", 
@@ -2089,7 +2089,7 @@ async function sendChatMessage(text) {
   if (inputEl) inputEl.value = "";
   renderChatMessages();
 
-  // 2. إظهار مؤشر "معلم إتقان يكتب..."
+  // 2. إظهار مؤشر الكتابة
   const container = document.getElementById("chat-messages-viewport");
   const loadingBubble = document.createElement("div");
   loadingBubble.id = "chat-typing-indicator";
@@ -2106,36 +2106,32 @@ async function sendChatMessage(text) {
   container.scrollTop = container.scrollHeight;
   if (window.lucide) window.lucide.createIcons();
 
- 
- // 3. منطق الرد الذكي (يتجاهل علامات الترقيم والنقاط)
- 
-// 3. منطق الرد الذكي
+  // 3. منطق الرد الذكي
   setTimeout(() => {
     document.getElementById("chat-typing-indicator")?.remove();
     
     const contentLower = content.toLowerCase();
     let reply = "";
 
-    // 1. الأولوية القصوى للاقتراحات السريعة (التي تتطلب منطقاً خاصاً)
-    // منطق الرد الذكي
     if (contentLower.includes("صحح")) {
       reply = correctionTips[Math.floor(Math.random() * correctionTips.length)];
     } 
     else if (contentLower.includes("3 كلمات") || contentLower.includes("كلمات جديدة")) {
       reply = newWordsTips[Math.floor(Math.random() * newWordsTips.length)];
     }
-    
     else if (contentLower.includes("سعيد") || contentLower.includes("حزين")) {
-      reply = "سعيد تعني Happy 😊\nحزين تعني Sad 😢";
+      reply = "سعيد: Happy 😊\nحزين: Sad 😢";
     } 
     else if (contentLower.includes("نصيحة")) {
       reply = "نصيحتي لك هي أن تتعلم 5 كلمات يومياً مع وضعها في جملة، فهذا أفضل بكثير من حفظ الكثير من الكلمات دون ممارسة 💡";
     } 
-    // 2. إذا لم يكن طلباً خاصاً، نبحث في القاموس
     else {
+      // البحث في القاموس مع التنظيف الذكي
+      const normalizedInput = normalizeArabic(contentLower);
+      
       const foundKey = Object.keys(tutorDictionary || {}).find(key => {
-        const regex = new RegExp(`\\b${key.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")}\\b`, "i");
-        return regex.test(contentLower.trim());
+        const normalizedKey = normalizeArabic(key.toLowerCase());
+        return normalizedKey === normalizedInput;
       });
 
       if (foundKey) {
@@ -2145,7 +2141,6 @@ async function sendChatMessage(text) {
       }
     }
 
-    // إضافة رد المعلم
     chatMessages.push({ 
       id: `assistant-${Date.now()}`, 
       role: "assistant", 
@@ -2252,3 +2247,17 @@ const correctionTips = [
   "بعد (can) لا نستخدم (to).\n\nCan I to help you? ❌\nCan I help you? ✔️",
   "نستخدم (glasses) للنظارة الطبية.\n\nHe is wearing a glass. ❌\nHe is wearing glasses. ✔️"
 ];
+
+function normalizeArabic(text) {
+  return text
+    // 1. إزالة التشكيل بالكامل (بما في ذلك التنوين)
+    .replace(/[\u064B-\u065F]/g, "")
+    // 2. توحيد الألفات
+    .replace(/[أإآ]/g, "ا")
+    // 3. توحيد التاء المربوطة والهاء
+    .replace(/ة/g, "ه")
+    // 4. توحيد الياء والألف المقصورة
+    .replace(/ى/g, "ي")
+    // 5. إزالة أي مسافات زائدة
+    .trim();
+}
