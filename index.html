@@ -1667,13 +1667,15 @@
         </button>
       </div>
 
-      <!-- Left Action Badge overlay -->
-      <div class="absolute top-4 left-4 z-10">
-        <button id="modal-mastery-badge" onclick="modalToggleMastery()" class="px-3.5 py-1.5 rounded-full text-[10px] font-black tracking-wide border transition-all flex items-center gap-1.5 cursor-pointer">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check" aria-hidden="true" class="lucide lucide-check w-3.5 h-3.5"><path d="M20 6 9 17l-5-5"></path></svg>
-          <span id="modal-mastery-badge-text">قيد الدراسة</span>
-        </button>
-      </div>
+<div class="absolute top-4 left-4 z-10">
+  <button id="modal-mastery-badge" onclick="modalToggleMastery()" 
+    class="px-3 py-1 rounded-full text-[9px] font-black tracking-wide border-2 border-solid border-slate-400 transition-all flex items-center gap-1 cursor-pointer bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-600 active:scale-95">
+    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check">
+      <path d="M20 6 9 17l-5-5"></path>
+    </svg>
+    <span id="modal-mastery-badge-text">قيد الدراسة</span>
+  </button>
+</div>
 
       <!-- Main Modal card header -->
       <div class="bg-gradient-to-l from-brand-blue/10 to-transparent p-6 sm:p-8 pt-12 space-y-4 border-b border-slate-50">
@@ -1686,9 +1688,9 @@
           <div class="flex items-center gap-4">
             <h2 id="modal-spelling-en" class="text-3xl font-black font-sans tracking-tight text-brand-blue ltr">Word</h2>
             <!-- Audio voice speech trigger -->
-            <button onclick="modalPronounceWord()" class="p-2.5 rounded-xl bg-brand-blue hover:bg-brand-blue/20 text-brand-blue hover:text-brand-blue transition-all cursor-pointer border border-brand-blue/10 shadow-3xs" title="استمع للنطق الصوتي">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="volume-2" aria-hidden="true" class="lucide lucide-volume-2 w-5 h-5"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><path d="M16 9a5 5 0 0 1 0 6"></path><path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path></svg>
-            </button>
+            <button onclick="modalPronounceWord()" class="p-2.5 rounded-xl bg-brand-blue/10 hover:bg-brand-blue/20 text-brand-blue transition-all cursor-pointer border border-brand-blue/10 shadow-3xs" title="استمع للنطق الصوتي">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="volume-2" aria-hidden="true" class="lucide lucide-volume-2 w-5 h-5"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><path d="M16 9a5 5 0 0 1 0 6"></path><path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path></svg>
+</button>
           </div>
           <div class="text-right">
             <h3 id="modal-arabic-meaning" class="text-2xl font-black text-brand-blue font-sans">المعنى بالعربية</h3>
