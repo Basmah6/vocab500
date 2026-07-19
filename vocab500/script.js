@@ -1351,10 +1351,12 @@ function updateModalMasteryBadge(isMastered) {
   const badgeText = document.getElementById("modal-mastery-badge-text");
 
   if (isMastered) {
-    badge.className = "px-3.5 py-1.5 rounded-full text-[10px] font-black tracking-wide border transition-all flex items-center gap-1.5 cursor-pointer bg-emerald-50 text-emerald-600 border-emerald-100";
+    // إطار أخضر بسمك 2px
+    badge.className = "px-3 py-1 rounded-full text-[9px] font-black tracking-wide border-2 border-solid border-emerald-400 transition-all flex items-center gap-1 cursor-pointer bg-emerald-50 text-emerald-700 active:scale-95";
     badgeText.textContent = "متقنة بنجاح";
   } else {
-    badge.className = "px-3.5 py-1.5 rounded-full text-[10px] font-black tracking-wide border transition-all flex items-center gap-1.5 cursor-pointer bg-slate-50 text-slate-400 border-slate-100";
+    // إطار رمادي بسمك 2px
+    badge.className = "px-3 py-1 rounded-full text-[9px] font-black tracking-wide border-2 border-solid border-slate-400 transition-all flex items-center gap-1 cursor-pointer bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-600 active:scale-95";
     badgeText.textContent = "قيد الدراسة";
   }
 }
