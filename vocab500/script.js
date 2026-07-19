@@ -1167,38 +1167,31 @@ if (window.speechSynthesis.onvoiceschanged !== undefined) {
 }
 
 // دالة النطق المحسنة
-function pronounceWord(wordText, useGoogleTTS = true) {
+function pronounceWord(wordText) {
     if (!wordText) return;
 
-    // 1. محاولة إيقاف أي نطق سابق
-    window.speechSynthesis.cancel();
+    try {
+        window.speechSynthesis.cancel(); // إيقاف أي نطق سابق
 
-    if (useGoogleTTS) {
-        // إنشاء عنصر صوتي
-        const audio = new Audio(`https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=${encodeURIComponent(wordText)}`);
-        
-        // حل مشكلة الحظر: تشغيل الصوت فوراً بعد محاولة التحميل
-        audio.play().catch(error => {
-            console.warn("Autoplay blocked, switching to System Voice:", error);
-            // إذا فشل صوت جوجل بسبب الحظر، تحول فوراً لصوت النظام
-            pronounceWord(wordText, false); 
-        });
-    } else {
-        // طريقة Web Speech API (النظام)
         const utterance = new SpeechSynthesisUtterance(wordText);
         utterance.lang = "en-US";
-        utterance.rate = 0.85;
+        utterance.rate = 0.85; // سرعة مناسبة للمتعلم
 
-        // استخدام القائمة المحدثة
+        // ترتيب أولويات البحث عن أفضل صوت (من الأفضل للأقل)
+        // 1. Google (أفضل أصوات أندرويد وكروم) 2. Samantha (أفضل صوت للآيفون) 3. أي صوت أمريكي آخر
         const preferredVoice = availableVoices.find(v => 
             v.name.includes("Google US English") || 
             v.name.includes("Samantha") || 
             v.name.includes("English United States")
         );
 
-        if (preferredVoice) utterance.voice = preferredVoice;
+        if (preferredVoice) {
+            utterance.voice = preferredVoice;
+        }
 
         window.speechSynthesis.speak(utterance);
+    } catch (err) {
+        console.error("Audio speech synthesis failed:", err);
     }
 }
 
