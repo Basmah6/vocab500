@@ -1152,28 +1152,53 @@ function closeWordCard() {
 }
 
 // Play pronunciation audio using Web Speech API for any given word text
+// متغيرات لتخزين الأصوات المتاحة
+let availableVoices = [];
+
+// دالة تحديث قائمة الأصوات (ضرورية لأن المتصفحات تحملها في الخلفية)
+function refreshVoices() {
+    availableVoices = window.speechSynthesis.getVoices();
+}
+
+// تشغيل التحديث فوراً وعند تغير الأصوات
+refreshVoices();
+if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = refreshVoices;
+}
+
+// دالة النطق المحسنة
 function pronounceWord(wordText) {
-  if (!wordText) return;
+    if (!wordText) return;
 
-  try {
-    // Cancel any ongoing speech to avoid overlapping
-    window.speechSynthesis.cancel();
+    try {
+        window.speechSynthesis.cancel(); // إيقاف أي نطق سابق
 
-    const utterance = new SpeechSynthesisUtterance(wordText);
-    utterance.lang = "en-US";
-    utterance.rate = 0.85; // Standard relaxed speed for learners
+        const utterance = new SpeechSynthesisUtterance(wordText);
+        utterance.lang = "en-US";
+        utterance.rate = 0.85; // سرعة مناسبة للمتعلم
 
-    // Query voices, pick American voice if available
-    const voices = window.speechSynthesis.getVoices();
-    const americanVoice = voices.find(v => v.lang.includes("US") || v.name.toLowerCase().includes("american") || v.name.toLowerCase().includes("google"));
-    if (americanVoice) {
-      utterance.voice = americanVoice;
+        // ترتيب أولويات البحث عن أفضل صوت (من الأفضل للأقل)
+        // 1. Google (أفضل أصوات أندرويد وكروم) 2. Samantha (أفضل صوت للآيفون) 3. أي صوت أمريكي آخر
+        const preferredVoice = availableVoices.find(v => 
+            v.name.includes("Google US English") || 
+            v.name.includes("Samantha") || 
+            v.name.includes("English United States")
+        );
+
+        if (preferredVoice) {
+            utterance.voice = preferredVoice;
+        }
+
+        window.speechSynthesis.speak(utterance);
+    } catch (err) {
+        console.error("Audio speech synthesis failed:", err);
     }
+}
 
-    window.speechSynthesis.speak(utterance);
-  } catch (err) {
-    console.error("Audio speech synthesis failed:", err);
-  }
+// دالة نطق الكلمة المحددة (تبقى كما هي)
+function modalPronounceWord() {
+  if (!activeExplorerWord) return;
+  pronounceWord(activeExplorerWord.word);
 }
 
 // Play pronunciation audio using Web Speech API for the active explorer word
