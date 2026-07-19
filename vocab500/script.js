@@ -1295,41 +1295,31 @@ function modalPronounceWord() {
 }
 
 // Fetch Deep AI Explanation from Backend API
-async function fetchAIExplanation() {
+function fetchAIExplanation() {
   if (!activeExplorerWord) return;
 
   const btn = document.getElementById("modal-ai-explain-btn");
-  const loading = document.getElementById("modal-ai-loading");
   const displayBox = document.getElementById("modal-ai-explain-box");
+  const loading = document.getElementById("modal-ai-loading");
 
+  // إظهار واجهة التحميل للحظة (للحفاظ على تجربة المستخدم)
   btn.classList.add("hidden");
   loading.classList.remove("hidden");
 
-  try {
-    const res = await fetch("/api/tutor/explain", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        word: activeExplorerWord.word,
-        category: activeExplorerWord.categoryName
-      })
-    });
+  setTimeout(() => {
+    // 1. البحث عن الشرح في البيانات المحلية (wordExplanations)
+    const wordKey = activeExplorerWord.word.toLowerCase();
+    const data = wordExplanations[wordKey];
 
-    if (!res.ok) throw new Error("Explanation API failed");
-    const data = await res.json();
+    if (data) {
+      // 2. تحديث الواجهة بنفس المنطق السابق
+      document.getElementById("ai-explain-pronunciation").innerHTML = data.pronunciationGuide;
+      document.getElementById("ai-explain-mnemonic").innerHTML = data.mnemonic;
+      document.getElementById("ai-explain-fun-fact").innerHTML = data.funFact;
 
-    if (data.error) throw new Error(data.error);
-
-    // Inject sound guides, link mnemonics and linguistic factoids
-    document.getElementById("ai-explain-pronunciation").innerHTML = data.pronunciationGuide || "لا يوجد نطق متاح حالياً.";
-    document.getElementById("ai-explain-mnemonic").innerHTML = data.mnemonic || "حاول تكرار الكلمة وحفظها بصوت عالٍ.";
-    document.getElementById("ai-explain-fun-fact").innerHTML = data.funFact || "كلمة شائعة هامة جداً للمحادثات اليومية.";
-
-    // Inject dynamic lists of expanded biling examples
-    const listContainer = document.getElementById("ai-explain-examples-list");
-    listContainer.innerHTML = "";
-
-    if (data.examples && Array.isArray(data.examples)) {
+      const listContainer = document.getElementById("ai-explain-examples-list");
+      listContainer.innerHTML = "";
+      
       data.examples.forEach(ex => {
         const row = document.createElement("div");
         row.className = "bg-white border border-slate-100 p-4 rounded-xl space-y-1.5 shadow-3xs";
@@ -1340,25 +1330,19 @@ async function fetchAIExplanation() {
         `;
         listContainer.appendChild(row);
       });
+
+      loading.classList.add("hidden");
+      displayBox.classList.remove("hidden");
+      awardXp(5);
     } else {
-      listContainer.innerHTML = "<p class='text-[11px] text-slate-400'>لا تتوفر أمثلة إضافية حالياً.</p>";
+      // إذا لم نجد شرحاً للكلمة
+      loading.classList.add("hidden");
+      btn.classList.remove("hidden");
+      alert("عذراً، الشرح التفصيلي لهذه الكلمة غير متوفر حالياً.");
     }
 
-    loading.classList.add("hidden");
-    displayBox.classList.remove("hidden");
-
-    // Award XP points for looking up detailed explanation
-    awardXp(5);
-  } catch (err) {
-    console.error("AI explanation fetch failed:", err);
-    loading.classList.add("hidden");
-    btn.classList.remove("hidden");
-    alert("عذراً، تعذر الاتصال بـ Itqan AI Tutor حالياً. يرجى تكرار المحاولة.");
-  }
-
-  if (window.lucide) {
-    window.lucide.createIcons();
-  }
+    if (window.lucide) window.lucide.createIcons();
+  }, 500); // تأخير بسيط لمحاكاة سرعة المعلم الذكي
 }
 
 // Update Explorer Modal Mastery visual badges
