@@ -1,3 +1,90 @@
+const newWordsTips = [
+  "إليك 3 كلمات أساسية لمستوى A1:\nOkay (حسنًا) 👍\nThank you (شكرًا لك) 🙏\nThanks (شكرًا) 😊",
+  "إليك 3 كلمات أساسية لمستوى A1:\nPlease (من فضلك) 🙂🙏\nFine (بخير) 😄\nMorning (الصباح) 🌅",
+  "إليك 3 كلمات أساسية لمستوى A1:\nAfternoon (بعد الظهر) ☀️\nEvening (المساء) 🌆\nMr. (السيد) 👨",
+  "إليك 3 كلمات أساسية لمستوى A1:\nNight (الليل) 🌙\nBye (وداعًا) 👋\nGoodbye (إلى اللقاء) 👋😊",
+  "إليك 3 كلمات أساسية لمستوى A1:\nHi (مرحبًا) 👋\nMrs. (السيدة) 👩\nHello (مرحبًا) 😊",
+  "إليك 3 كلمات أساسية لمستوى A1:\nAddress (العنوان) 📍\nLady (سيدة) 👒\nSorry (آسف / عذرًا) 😔",
+  "إليك 3 كلمات أساسية لمستوى A1:\nMs. (الآنسة / السيدة) 👩\nName (الاسم) 🪪\nFriend (صديق) 🤝",
+  "إليك 3 كلمات أساسية لمستوى A1:\nPeople (الناس) 👥\nExcuse me (المعذرة) 🙋\nMan (رجل) 👨",
+  "إليك 3 كلمات أساسية لمستوى A1:\nWoman (امرأة) 👩\nBoy (ولد) 👦\nHow (كيف) ❓",
+  "إليك 3 كلمات أساسية لمستوى A1:\nYes (نعم) ✔️\nGirl (بنت) 👧\nChild (طفل) 🧒",
+  "إليك 3 كلمات أساسية لمستوى A1:\nBaby (رضيع) 👶\nWho (من) 👤❓\nWhat (ماذا) ❓",
+  "إليك 3 كلمات أساسية لمستوى A1:\nNo (لا) ❌\nWhy (لماذا) 🤔\nWhere (أين) 📍❓",
+  "إليك 3 كلمات أساسية لمستوى A1:\nWelcome (أهلًا وسهلًا) 🤗\nAge (العمر) 🎂\nSir (سيدي) 🎩",
+    "إليك 3 كلمات أساسية لمستوى A1:\nFamily (عائلة) 👨‍👩‍👧‍👦\nFather (أب) 👨\nMother (أم) 👩",
+  "إليك 3 كلمات أساسية لمستوى A1:\nDad (أبي) 👨💙\nMom (أمي) 👩💖\nBrother (أخ) 👦",
+  "إليك 3 كلمات أساسية لمستوى A1:\nSister (أخت) 👧\nSon (ابن) 👦\nDaughter (ابنة) 👧",
+  "إليك 3 كلمات أساسية لمستوى A1:\nParent (أحد الوالدين) 👨‍👩\nParents (الوالدان) 👨‍👩‍👧\nGrandfather (جد) 👴",
+  "إليك 3 كلمات أساسية لمستوى A1:\nGrandmother (جدة) 👵\nGrandparent (جد أو جدة) 👴👵\nHusband (زوج) 🤵💍",
+  "إليك 3 كلمات أساسية لمستوى A1:\nWife (زوجة) 👰💍\nUncle (عم / خال) 👨\nAunt (عمة / خالة) 👩",
+  "إليك 3 كلمات أساسية لمستوى A1:\nCousin (ابن/ابنة العم أو الخال) 👦👧\nSon-in-law (زوج الابنة) 🤵\nChildren (أطفال) 🧒👧",
+  "إليك 3 كلمات أساسية لمستوى A1:\nBoyfriend (حبيب) ❤️👦\nGirlfriend (حبيبة) ❤️👧\nPartner (شريك) 🤝❤️",
+  "إليك 3 كلمات أساسية لمستوى A1:\nMarried (متزوج) 💍❤️\nSingle (أعزب / عزباء) 🧍\nNeighbor (جار) 🏡",
+  "إليك 3 كلمات أساسية لمستوى A1:\nGuest (ضيف) 🚪😊\nHost (مضيف) 🏠🤝\nAdult (شخص بالغ) 🧑",
+  "إليك 3 كلمات أساسية لمستوى A1:\nGrandchild (حفيد / حفيدة) 👶\nNephew (ابن الأخ أو الأخت) 👦\nNiece (ابنة الأخ أو الأخت) 👧",
+  "إليك 3 كلمات أساسية لمستوى A1:\nRelative (قريب) 👨‍👩‍👧\nTwin (توأم) 👯\nGentleman (رجل نبيل) 🤵🎩",
+  "إليك 3 كلمات أساسية لمستوى A1:\nHome (منزل) 🏡\nHouse (بيت) 🏠\nApartment (شقة) 🏢",
+  "إليك 3 كلمات أساسية لمستوى A1:\nRoom (غرفة) 🚪\nBedroom (غرفة نوم) 🛏️\nBathroom (حمام) 🚿",
+  "إليك 3 كلمات أساسية لمستوى A1:\nKitchen (مطبخ) 🍳\nLiving room (غرفة المعيشة) 🛋️\nDoor (باب) 🚪",
+  "إليك 3 كلمات أساسية لمستوى A1:\nWindow (نافذة) 🪟\nWall (جدار) 🧱\nFloor (أرضية) 🟫",
+  "إليك 3 كلمات أساسية لمستوى A1:\nTable (طاولة) 🪑\nChair (كرسي) 🪑\nBed (سرير) 🛏️",
+    "إليك 3 كلمات أساسية لمستوى A1:\nSofa (أريكة) 🛋️\nDesk (مكتب) 🖥️\nKey (مفتاح) 🔑",
+  "إليك 3 كلمات أساسية لمستوى A1:\nClock (ساعة) 🕒\nMirror (مرآة) 🪞\nFridge (ثلاجة) 🧊",
+  "إليك 3 كلمات أساسية لمستوى A1:\nTV (تلفاز) 📺\nLight (مصباح) 💡\nGarden (حديقة) 🌳",
+  "إليك 3 كلمات أساسية لمستوى A1:\nRoof (سقف) 🏠\nShower (دش) 🚿\nSoap (صابون) 🧼",
+  "إليك 3 كلمات أساسية لمستوى A1:\nTowel (منشفة) 🧺\nBag (حقيبة) 🎒\nBox (صندوق) 📦",
+  "إليك 3 كلمات أساسية لمستوى A1:\nBlanket (بطانية) 🛌\nPillow (وسادة) 🛏️\nCurtain (ستارة) 🪟",
+  "إليك 3 كلمات أساسية لمستوى A1:\nPlate (طبق) 🍽️\nSpoon (ملعقة) 🥄\nFood (طعام) 🍽️",
+  "إليك 3 كلمات أساسية لمستوى A1:\nDrink (مشروب) 🥤\nWater (ماء) 💧\nTea (شاي) 🍵",
+  "إليك 3 كلمات أساسية لمستوى A1:\nCoffee (قهوة) ☕\nMilk (حليب) 🥛\nJuice (عصير) 🧃",
+  "إليك 3 كلمات أساسية لمستوى A1:\nBread (خبز) 🍞\nRice (أرز) 🍚\nMeat (لحم) 🥩",
+  "إليك 3 كلمات أساسية لمستوى A1:\nFish (سمك) 🐟\nChicken (دجاج) 🍗\nEgg (بيضة) 🥚",
+  "إليك 3 كلمات أساسية لمستوى A1:\nCheese (جبن) 🧀\nFruit (فاكهة) 🍎🍌\nVegetable (خضار) 🥦",
+  "إليك 3 كلمات أساسية لمستوى A1:\nApple (تفاحة) 🍎\nBanana (موز) 🍌\nOrange (برتقال) 🍊",
+  "إليك 3 كلمات أساسية لمستوى A1:\nTomato (طماطم) 🍅\nPotato (بطاطس) 🥔\nSugar (سكر) 🍚",
+  "إليك 3 كلمات أساسية لمستوى A1:\nSalt (ملح) 🧂\nSweet (حلو) 🍬\nBreakfast (فطور) 🍳",
+  "إليك 3 كلمات أساسية لمستوى A1:\nLunch (غداء) 🍛\nDinner (عشاء) 🍽️🌙\nMeal (وجبة) 🍽️",
+  "إليك 3 كلمات أساسية لمستوى A1:\nHungry (جائع) 😋\nThirsty (عطشان) 🥵💧\nFork (شوكة) 🍴",
+  "إليك 3 كلمات أساسية لمستوى A1:\nKnife (سكين) 🔪\nCup (كوب) ☕\nGlass (كأس) 🥛",
+  "إليك 3 كلمات أساسية لمستوى A1:\nOil (زيت) 🫒🛢️\nBody (جسم) 🧍\nHead (رأس) 🧑",
+  "إليك 3 كلمات أساسية لمستوى A1:\nFace (وجه) 🙂\nEye (عين) 👁️\nEar (أذن) 👂",
+  "إليك 3 كلمات أساسية لمستوى A1:\nNose (أنف) 👃\nMouth (فم) 👄\nTooth (سن) 🦷",
+    "إليك 3 كلمات أساسية لمستوى A1:\nTeeth (أسنان) 😁🦷\nHair (شعر) 💇\nHand (يد) ✋",
+  "إليك 3 كلمات أساسية لمستوى A1:\nArm (ذراع) 💪\nLeg (ساق) 🦵\nFoot (قدم) 🦶",
+  "إليك 3 كلمات أساسية لمستوى A1:\nFeet (قدمان) 👣\nFinger (إصبع) ☝️\nHeart (قلب) ❤️",
+  "إليك 3 كلمات أساسية لمستوى A1:\nBlood (دم) 🩸\nHealth (صحة) 💚\nHealthy (صحي) 💪🥗",
+  "إليك 3 كلمات أساسية لمستوى A1:\nIll (مريض) 🤒\nSick (مريض) 🤧\nDoctor (طبيب) 👨‍⚕️",
+  "إليك 3 كلمات أساسية لمستوى A1:\nMedicine (دواء) 💊\nHospital (مستشفى) 🏥\nPain (ألم) 😣",
+  "إليك 3 كلمات أساسية لمستوى A1:\nClean (نظيف) 🧼✨\nDirty (متسخ) 🧹\nRest (راحة) 😌",
+  "إليك 3 كلمات أساسية لمستوى A1:\nSleep (نوم) 😴\nBrain (دماغ) 🧠\nBone (عظمة) 🦴",
+  "إليك 3 كلمات أساسية لمستوى A1:\nSkin (جلد) 🧑\nNeck (رقبة) 🧣\nShoulder (كتف) 💪",
+  "إليك 3 كلمات أساسية لمستوى A1:\nShoulder (كتف) 💪\nClothes (ملابس) 👕\nShirt (قميص) 👔",
+  "إليك 3 كلمات أساسية لمستوى A1:\nTrousers (بنطال) 👖\nPants (بنطال) 👖\nDress (فستان) 👗",
+  "إليك 3 كلمات أساسية لمستوى A1:\nSkirt (تنورة) 👗\nCoat (معطف) 🧥\nJacket (سترة) 🧥",
+  "إليك 3 كلمات أساسية لمستوى A1:\nHat (قبعة) 👒\nShoe (حذاء) 👞\nShoes (أحذية) 👟",
+  "إليك 3 كلمات أساسية لمستوى A1:\nSock (جورب) 🧦\nSocks (جوارب) 🧦\nWear (يرتدي) 👕",
+  "إليك 3 كلمات أساسية لمستوى A1:\nColor (لون) 🎨\nWhite (أبيض) ⚪\nBlack (أسود) ⚫",
+  "إليك 3 كلمات أساسية لمستوى A1:\nRed (أحمر) 🔴\nBlue (أزرق) 🔵\nGreen (أخضر) 🟢",
+  "إليك 3 كلمات أساسية لمستوى A1:\nYellow (أصفر) 🟡\nBrown (بني) 🟤\nGrey (رمادي) 🩶",
+  "إليك 3 كلمات أساسية لمستوى A1:\nPink (وردي) 🩷\nOrange (برتقالي) 🟠\nGold (ذهبي) 🥇",
+  "إليك 3 كلمات أساسية لمستوى A1:\nSilver (فضي) 🥈\nBright (لامع) ✨\nDark (داكن) 🌑",
+  "إليك 3 كلمات أساسية لمستوى A1:\nGlasses (نظارات) 👓\nSuit (بدلة) 🤵\nBelt (حزام) 👖",
+  "إليك 3 كلمات أساسية لمستوى A1:\nRing (خاتم) 💍\nWatch (ساعة يد) ⌚\nPocket (جيب) 👖",
+  "إليك 3 كلمات أساسية لمستوى A1:\nPocket (جيب) 👖\nAnimal (حيوان) 🐾\nDog (كلب) 🐶",
+  "إليك 3 كلمات أساسية لمستوى A1:\nCat (قطة) 🐱\nBird (طائر) 🐦\nHorse (حصان) 🐴",
+  "إليك 3 كلمات أساسية لمستوى A1:\nCow (بقرة) 🐄\nSheep (خروف) 🐑\nFish (سمكة) 🐟",
+  "إليك 3 كلمات أساسية لمستوى A1:\nTree (شجرة) 🌳\nFlower (زهرة) 🌸\nGrass (عشب) 🌱",
+  "إليك 3 كلمات أساسية لمستوى A1:\nPlant (نبات) 🪴\nSun (شمس) ☀️\nMoon (قمر) 🌙",
+  "إليك 3 كلمات أساسية لمستوى A1:\nStar (نجمة) ⭐\nSky (سماء) 🌤️\nEarth (الأرض) 🌍",
+  "إليك 3 كلمات أساسية لمستوى A1:\nWorld (العالم) 🌎\nLand (يابسة) 🌍\nSea (بحر) 🌊",
+  "إليك 3 كلمات أساسية لمستوى A1:\nRiver (نهر) 🏞️\nLake (بحيرة) 🏞️\nMountain (جبل) ⛰️",
+  "إليك 3 كلمات أساسية لمستوى A1:\nHill (تل) 🌄\nForest (غابة) 🌲\nWood (خشب) 🪵",
+  "إليك 3 كلمات أساسية لمستوى A1:\nStone (حجر) 🪨\nFire (نار) 🔥\nWater (ماء) 💧",
+  "إليك 3 كلمات أساسية لمستوى A1:\nAir (هواء) 🌬️\nRain (مطر) 🌧️\nSnow (ثلج) ❄️",
+  "إليك 3 كلمات أساسية لمستوى A1:\nWind (رياح) 🌬️\nCloud (سحابة) ☁️\nRock (صخرة) 🪨"
+];
+
 // Itqan English Platform Main Controller
 
 // Global Application States
@@ -2006,23 +2093,19 @@ async function sendChatMessage(text) {
   const content = text.trim();
   if (content === "") return;
 
-  // Append User message state
-  const userMsg = {
-    id: `user-${Date.now()}`,
-    role: "user",
-    content: content,
-    timestamp: new Date()
-  };
-
-  chatMessages.push(userMsg);
+  // 1. إضافة رسالة المستخدم للمصفوفة وتحديث الشاشة
+  chatMessages.push({ 
+    id: `user-${Date.now()}`, 
+    role: "user", 
+    content: content, 
+    timestamp: new Date() 
+  });
   
-  // Clear input
   const inputEl = document.getElementById("chat-message-input");
   if (inputEl) inputEl.value = "";
-
   renderChatMessages();
 
-  // Show loading indicator
+  // 2. إظهار مؤشر "معلم إتقان يكتب..."
   const container = document.getElementById("chat-messages-viewport");
   const loadingBubble = document.createElement("div");
   loadingBubble.id = "chat-typing-indicator";
@@ -2037,62 +2120,58 @@ async function sendChatMessage(text) {
   `;
   container.appendChild(loadingBubble);
   container.scrollTop = container.scrollHeight;
+  if (window.lucide) window.lucide.createIcons();
 
-  if (window.lucide) {
-    window.lucide.createIcons();
-  }
+ 
+ // 3. منطق الرد الذكي (يتجاهل علامات الترقيم والنقاط)
+ 
+// 3. منطق الرد الذكي
+  setTimeout(() => {
+    document.getElementById("chat-typing-indicator")?.remove();
+    
+    const contentLower = content.toLowerCase();
+    let reply = "";
 
-  // Call Backend chat API
-  try {
-    // Keep only last 10 messages for context efficiency
-    const recentContext = chatMessages.slice(-10).map(m => ({
-      role: m.role,
-      content: m.content
-    }));
+    // 1. الأولوية القصوى للاقتراحات السريعة (التي تتطلب منطقاً خاصاً)
+    // منطق الرد الذكي
+    if (contentLower.includes("صحح")) {
+      reply = correctionTips[Math.floor(Math.random() * correctionTips.length)];
+    } 
+    else if (contentLower.includes("3 كلمات") || contentLower.includes("كلمات جديدة")) {
+      reply = newWordsTips[Math.floor(Math.random() * newWordsTips.length)];
+    }
+    
+    else if (contentLower.includes("سعيد") || contentLower.includes("حزين")) {
+      reply = "سعيد تعني Happy 😊\nحزين تعني Sad 😢";
+    } 
+    else if (contentLower.includes("نصيحة")) {
+      reply = "نصيحتي لك هي أن تتعلم 5 كلمات يومياً مع وضعها في جملة، فهذا أفضل بكثير من حفظ الكثير من الكلمات دون ممارسة 💡";
+    } 
+    // 2. إذا لم يكن طلباً خاصاً، نبحث في القاموس
+    else {
+      const foundKey = Object.keys(tutorDictionary || {}).find(key => {
+        const regex = new RegExp(`\\b${key.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")}\\b`, "i");
+        return regex.test(contentLower.trim());
+      });
 
-    const res = await fetch("/api/tutor/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: recentContext })
+      if (foundKey) {
+        reply = tutorDictionary[foundKey];
+      } else {
+        reply = "عذراً، لم أجد شرحاً لهذه الكلمة في قاموسي حالياً. جرب كتابة كلمة أخرى!";
+      }
+    }
+
+    // إضافة رد المعلم
+    chatMessages.push({ 
+      id: `assistant-${Date.now()}`, 
+      role: "assistant", 
+      content: reply, 
+      timestamp: new Date() 
     });
-
-    // Remove typing bubble
-    const indicator = document.getElementById("chat-typing-indicator");
-    if (indicator) indicator.remove();
-
-    if (!res.ok) throw new Error("Chat api failed");
-    const data = await res.json();
-
-    if (data.error) throw new Error(data.error);
-
-    // Append response assistant bubble
-    const assistantMsg = {
-      id: `assistant-${Date.now()}`,
-      role: "assistant",
-      content: data.content,
-      timestamp: new Date()
-    };
-
-    chatMessages.push(assistantMsg);
+    
     renderChatMessages();
-
-    // Award +5 XP per conversational turn
-    awardXp(5);
-  } catch (err) {
-    console.error("AI tutor chat failed:", err);
-    const indicator = document.getElementById("chat-typing-indicator");
-    if (indicator) indicator.remove();
-
-    // Show error system indicator
-    const errorMsg = {
-      id: `err-${Date.now()}`,
-      role: "assistant",
-      content: "عذراً، تعذر الحصول على رد من معلم إتقان الذكي حالياً. يرجى تكرار المحاولة.",
-      timestamp: new Date()
-    };
-    chatMessages.push(errorMsg);
-    renderChatMessages();
-  }
+    if (typeof awardXp === 'function') awardXp(5);
+  }, 800);
 }
 
 // Send message from typing input bar
@@ -2146,3 +2225,46 @@ function processStoryText(text, storySpecificWords, lang) {
 
     return processedText;
 }
+
+const correctionTips = [
+  "كثير من المتعلمين ينسون إضافة (s) مع الفعل عندما يكون الفاعل مفردًا.\n\nShe go to school every day. ❌\nShe goes to school every day. ✔️",
+  "بعد (he / she / it) نستخدم (doesn’t) وليس (don’t).\n\nHe don’t like coffee. ❌\nHe doesn’t like coffee. ✔️",
+  "لا نستخدم (am) مع (have) بهذه الطريقة.\n\nI am have a cat. ❌\nI have a cat. ✔️",
+  "مع (they) نستخدم (are) وليس (is).\n\nThey is happy. ❌\nThey are happy. ✔️",
+  "في الماضي مع (we) نستخدم (were).\n\nWe was at home yesterday. ❌\nWe were at home yesterday. ✔️",
+  "بعد (can) يأتي الفعل بصيغته الأساسية.\n\nShe can sings well. ❌\nShe can sing well. ✔️",
+  "بعد (like) يمكن استخدام الفعل مع (ing).\n\nI like play football. ❌\nI like playing football. ✔️",
+  "الفعل مع (he) يحتاج إلى (s).\n\nHe have two brothers. ❌\nHe has two brothers. ✔️",
+  "مع الفاعل المفرد نضيف (s) إلى الفعل.\n\nMy father work in a hospital. ❌\nMy father works in a hospital. ✔️",
+  "المهن المفردة تحتاج إلى (a) أو (an).\n\nI am student. ❌\nI am a student. ✔️",
+  "لا تنس أداة التنكير قبل المهنة.\n\nShe is teacher. ❌\nShe is a teacher. ✔️",
+  "في الإنجليزية لا نقول: لدي 18 سنة.\n\nI have 18 years old. ❌\nI am 18 years old. ✔️",
+  "الأسئلة في المضارع تحتاج إلى (do).\n\nWhere you live? ❌\nWhere do you live? ✔️",
+  "مع (she) نستخدم (does).\n\nWhat she likes? ❌\nWhat does she like? ✔️",
+  "بعد (does) يعود الفعل إلى شكله الأساسي.\n\nDoes he likes pizza? ❌\nDoes he like pizza? ✔️",
+  "بعد (don’t) لا نضيف (s) للفعل.\n\nWe don’t goes there. ❌\nWe don’t go there. ✔️",
+  "مع الأسماء الجمع نستخدم (are).\n\nThere is many books. ❌\nThere are many books. ✔️",
+  "جمع (child) هو (children) وليس (childrens).\n\nThe childrens are playing. ❌\nThe children are playing. ✔️",
+  "مع الأسماء المعدودة نستخدم (many).\n\nI have much friends. ❌\nI have many friends. ✔️",
+  "مع الجمع نستخدم (these).\n\nThis are my shoes. ❌\nThese are my shoes. ✔️",
+  "مع الجمع البعيد نستخدم (those).\n\nThat are my books. ❌\nThose are my books. ✔️",
+  "لا نستخدم (more) مع الصفات القصيرة المنتهية بـ(er).\n\nShe is more taller than me. ❌\nShe is taller than me. ✔️",
+  "بعد (didn’t) يأتي الفعل بصيغته الأساسية.\n\nI didn’t went there. ❌\nI didn’t go there. ✔️",
+  "الفعل الماضي من (go) هو (went).\n\nHe goed home. ❌\nHe went home. ✔️",
+  "الفعل الماضي من (eat) هو (ate).\n\nWe eated lunch. ❌\nWe ate lunch. ✔️",
+  "(boring) تصف الشيء، أما (bored) فتصف الشعور.\n\nI am boring. ❌\nI am bored. ✔️",
+  "الفيلم يكون (boring) وليس (bored).\n\nThe movie is bored. ❌\nThe movie is boring. ✔️",
+  "الفعل (listen) يحتاج إلى (to).\n\nListen me. ❌\nListen to me. ✔️",
+  "التعبير الصحيح هو (married to).\n\nMarried with him. ❌\nMarried to him. ✔️",
+  "مع (arrive) نستخدم (at) للأماكن الصغيرة.\n\nI arrived to school. ❌\nI arrived at school. ✔️",
+  "التعبير الصحيح هو (at home).\n\nShe is in home. ❌\nShe is at home. ✔️",
+  "ترتيب الكلمات مهم في الإنجليزية.\n\nI very like it. ❌\nI like it very much. ✔️",
+  "بعد الفعل نستخدم (well) وليس (good).\n\nHe speaks very good English. ❌\nHe speaks English very well. ✔️",
+  "لا نستخدم (a) قبل (one).\n\nI have a one sister. ❌\nI have one sister. ✔️",
+  "كلمة (hair) غالبًا غير معدودة.\n\nShe has long hairs. ❌\nShe has long hair. ✔️",
+  "بعد (want) نستخدم (to + verb).\n\nI want buy a car. ❌\nI want to buy a car. ✔️",
+  "الفعل (enjoy) يتبعه فعل مع (ing).\n\nThey enjoy to swim. ❌\nThey enjoy swimming. ✔️",
+  "بعد (Let’s) يأتي الفعل مباشرة.\n\nLet’s to go! ❌\nLet’s go! ✔️",
+  "بعد (can) لا نستخدم (to).\n\nCan I to help you? ❌\nCan I help you? ✔️",
+  "نستخدم (glasses) للنظارة الطبية.\n\nHe is wearing a glass. ❌\nHe is wearing glasses. ✔️"
+];
