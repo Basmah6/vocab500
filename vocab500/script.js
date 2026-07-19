@@ -1349,13 +1349,16 @@ function fetchAIExplanation() {
 function updateModalMasteryBadge(isMastered) {
   const badge = document.getElementById("modal-mastery-badge");
   const badgeText = document.getElementById("modal-mastery-badge-text");
+  const badgeIcon = document.getElementById("modal-mastery-icon");
 
   if (isMastered) {
-    // إطار أخضر بسمك 2px
+    // حالة الإتقان: إظهار الصح + لون أخضر
+    badgeIcon.style.display = "block";
     badge.className = "px-3 py-1 rounded-full text-[9px] font-black tracking-wide border-2 border-solid border-emerald-400 transition-all flex items-center gap-1 cursor-pointer bg-emerald-50 text-emerald-700 active:scale-95";
     badgeText.textContent = "متقنة بنجاح";
   } else {
-    // إطار رمادي بسمك 2px
+    // حالة قيد الدراسة: إخفاء الصح + لون رمادي
+    badgeIcon.style.display = "none";
     badge.className = "px-3 py-1 rounded-full text-[9px] font-black tracking-wide border-2 border-solid border-slate-400 transition-all flex items-center gap-1 cursor-pointer bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-600 active:scale-95";
     badgeText.textContent = "قيد الدراسة";
   }
