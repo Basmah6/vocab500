@@ -1260,12 +1260,24 @@ function pronounceWord(wordText) {
     try {
         window.speechSynthesis.cancel(); // إيقاف أي نطق سابق
 
-        const utterance = new SpeechSynthesisUtterance(wordText);
-        utterance.lang = "en-US";
-        utterance.rate = 0.85; // سرعة مناسبة للمتعلم
+        // 1. مرحلة المعالجة (استبدال الاختصارات بكلمات كاملة)
+        let processedText = wordText;
+        
+        // استخدام تعبير منتظم (Regex) لاستبدال الاختصارات
+        // \b تضمن أننا نستبدل الكلمة كاملة فقط ولا نستبدل حروفاً داخل كلمات أخرى
+        processedText = processedText
+            .replace(/\bmr\./gi, "Mister")
+            .replace(/\bmr\b/gi, "Mister")
+            .replace(/\bms\./gi, "Miss")
+            .replace(/\bms\b/gi, "Miss")
+            .replace(/\bmrs\./gi, "Missus")
+            .replace(/\bmrs\b/gi, "Missus");
 
-        // ترتيب أولويات البحث عن أفضل صوت (من الأفضل للأقل)
-        // 1. Google (أفضل أصوات أندرويد وكروم) 2. Samantha (أفضل صوت للآيفون) 3. أي صوت أمريكي آخر
+        // 2. تمرير النص المعالج للمحرك
+        const utterance = new SpeechSynthesisUtterance(processedText);
+        utterance.lang = "en-US";
+        utterance.rate = 0.85;
+
         const preferredVoice = availableVoices.find(v => 
             v.name.includes("Google US English") || 
             v.name.includes("Samantha") || 
